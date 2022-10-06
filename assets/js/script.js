@@ -6,7 +6,9 @@ $('#currentDay').text(currentDate);
 // get document objects using jquery
 let hourRows = $('.row');
 let hourContainer = $('.hour');
-let saveButton = $('.saveBtn');
+let saveButtons = $('.saveBtn');
+let eventText = $('textarea');
+// let eventID = eventText.getAttribute('id');
 
 
 // --- styling containers --- \\
@@ -21,25 +23,38 @@ for(let i = 0; i < hourContainer.length; i++) {
     $('textarea').addClass('future');
   }
 } 
-
-// function to save event container contents when save button is clicked
-function saveEvent() {
-  // let eventContainer = $('textarea').val();
-  // localStorage.setItem(hourContainer[i].textContent, eventContainer) 
-  // how do i define 'i' based on where click took place
-}
-
-
-
 // event listener for when div with class of saveBtn is clicked
-saveButton.addEventListener('click', function(e) {
-  e.preventDefault();
+// for (var btn of saveButtons) {
+//   btn.addEventListener('click', function(e) {
+    // THIS DID NOT WORK
+    // e.preventDefault();
+    // GET ELEMENT ID OF BTN
+    // let item = $('textarea').getAttribute('id');
+    // console.log(item);
 
-  let saveText = $('saveBtn').click(function(e) {
-    let text = $(e.target).text();
+    // THIS IS WHAT WORKED
+    // let saveText = $('#0900').val();
+    // let keyName = $('#0900').attr('id');
+    // localStorage.setItem(keyName, saveText)
+    // console.log(keyName + ' and ' + saveText);
+//   })
+// }
+
+// SECOND TYPE OF EVENT LISTENER/LOCAL STORAGE FUNC - ALSO POPULATES TEXT FROM LOCAL STORAGE
+for (let i = 0; i < saveButtons.length; i++) {
+  let eventID = eventText[i].getAttribute('id'); // getting the id of the container
+  console.log(eventID);
+
+  let textCheck = localStorage.getItem(eventID); // storing local storage value into variable
+
+  if(textCheck) { // if there is an item in local storage that is the same as time id, populate text box
+    eventText[i].textContent = textCheck;
+  }
+
+  saveButtons[i].addEventListener('click', function() {
+    
+    let text = $('#' + eventID).val(); // getting the text that the user input
+    console.log(text);
+    localStorage.setItem(eventID, text);
   })
-
-  let keyName = $('')
-
-  localStorage.setItem()
-})
+}
